@@ -10,4 +10,9 @@ public class HomeController {
     public String Home(Model model ){
         return "index";
     }
+
+    @GetMapping("/admin")
+    public String ha(Model model ){
+        return "admin/login";
+    }
 }
