@@ -1,13 +1,19 @@
 package com.projects4.mcinema.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@AllArgsConstructor
 public class HomeController {
     @GetMapping("/")
     public String home(Model model){
         return "index";
+    }
+    @GetMapping("/login")
+    public String loginPage(Model model){
+        return  "loginForm";
     }
 }
