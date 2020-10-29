@@ -14,9 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomerService customerService;
+    private CustomerService customerService;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,15 +31,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/sign-in")
 //                .permitAll();
         http.authorizeRequests()
-                .antMatchers("/sign-up/**", "/sign-in/**","/index","/userprofile","/")
+                .antMatchers("/sign-up/**", "/sign-in/**","/index","/")
                 .permitAll();
         http.authorizeRequests().and().formLogin()//
                 // Submit URL của trang login
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
                 .loginPage("/login")//
-                .defaultSuccessUrl("/userAccountInfo")//
+                .defaultSuccessUrl("/index")//
                 .failureUrl("/login?error=true")//
-                .usernameParameter("username")//
+                .usernameParameter("email")//
                 .passwordParameter("password")
                 // Cấu hình cho Logout Page.
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
