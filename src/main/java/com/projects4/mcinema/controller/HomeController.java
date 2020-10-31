@@ -17,8 +17,8 @@ public class HomeController {
     public String doLogin(Model model){
         return  "/index";
     }
-    @GetMapping("/showLogin")
-    public String loginForm(Model model){
-        return "loginForm";
+    @GetMapping("/admin")
+    public String admin(Model model){
+        return "admin/index";
     }
 }
