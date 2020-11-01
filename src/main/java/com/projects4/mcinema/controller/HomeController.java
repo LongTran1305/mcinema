@@ -32,7 +32,11 @@ public class HomeController {
     @GetMapping("/logout")
     public String logout(){
         return "main/index";
-
-
-    
+    }@PostMapping("/login")
+    public String doLogin(Model model){
+        return  "/index";
+    }
+    @GetMapping("/admin")
+    public String admin(Model model){
+        return "admin/index";}
 }
