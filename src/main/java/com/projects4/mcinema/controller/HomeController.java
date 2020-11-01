@@ -32,5 +32,7 @@ public class HomeController {
     @GetMapping("/logout")
     public String logout(){
         return "main/index";
-    }
+
+
+    
 }
