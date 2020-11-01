@@ -17,7 +17,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "Customer")
-public class Customer {
+public class Customer implements UserDetails{
     @Id
     private String phoneNumber;
     private String password;
@@ -26,11 +26,14 @@ public class Customer {
     private String address;
     private boolean isActive;
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Customer(Customer optionalCustomer) {
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority();
-//        return Collections.singletonList(simpleGrantedAuthority);
-//    }
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
 //    @Builder.Default
 //    private UserRole userRole = UserRole.USER;
 
@@ -43,6 +46,31 @@ public class Customer {
     @Column(name = "password")
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     @Basic

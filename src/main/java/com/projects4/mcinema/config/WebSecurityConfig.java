@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @AllArgsConstructor
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private CustomerService customerService;
@@ -20,30 +22,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.authorizeRequests()
-//                .antMatchers("/sign-up/**", "/sign-in/**","/index","/userprofile","/")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/sign-in")
-//                .permitAll();
+
         http.authorizeRequests()
-                .antMatchers("/sign-up/**", "/sign-in/**","/index","/")
+                .antMatchers("/login/**", "/sign-up/**","/index","/")
                 .permitAll();
         http.authorizeRequests().and().formLogin()//
                 // Submit URL của trang login
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
-                .loginPage("/login")//
-                .defaultSuccessUrl("/index")//
-                .failureUrl("/login?error=true")//
-                .usernameParameter("email")//
+                .loginPage("/loginForm")//
+                .defaultSuccessUrl("/main/loginSuccess")//
+                .failureUrl("/error")//
+                .usernameParameter("phoneNumber")//
                 .passwordParameter("password")
                 // Cấu hình cho Logout Page.
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
-    }
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logout");
+   }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
