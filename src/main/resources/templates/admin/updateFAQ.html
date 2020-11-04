@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/admin_layout}">
+
+<title layout:fragment="title">Admin | Update FAQs</title>
+<div layout:fragment="content">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Update FAQs</h1>
+    <form style="width: 50%" action="#" th:action="@{/saveFAQ}" th:object="${faq}" method="post" class="user">
+        <hr>
+        <div class="form-group">
+            <input type="text" th:field="*{faqsid}" readonly="readonly" class="form-control form-control-user" placeholder="Questio.">
+        </div>
+        <div class="form-group">
+            <input type="text" th:field="*{question}" class="form-control form-control-user" placeholder="Questio.">
+        </div>
+        <div class="form-group">
+            <input type="text" th:field="*{answer}" class="form-control form-control-user" placeholder="Answer">
+        </div>
+        <button type="submit" class="btn-lg btn-success" value="submit">Update</button>
+        <hr>
+    </form>
+</div>
+
+<!-- End of Content Wrapper -->
+
+</html>
