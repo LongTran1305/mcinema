@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title layout:fragment="title">Insert Title Here</title>
     <meta charset="UTF-8">
@@ -57,8 +59,16 @@
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
                     <li><a href="faqs.html">FAQs</a></li>
-                    <li class="loginLink"><a href="#">LOG In</a></li>
-                    <li class="btn signupLink"><a href="#">sign up</a></li>
+<!--                    <li ><a th:href="@{/login}">LOG In</a></li>-->
+<!--                    <li class="btn signupLink"><a href="#">sign up</a></li>-->
+                    <li sec:authorize="isAuthenticated()">
+                        <span th:text="${#request.userPrincipal.principal.fullName}"></span>
+                        <a th:href="@{/logout}">Logout</a>
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <a class="btn btn-success" th:href="@{/login}">Login</a>
+                        <a class="btn btn-primary" th:href="@{/register}">Register</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
