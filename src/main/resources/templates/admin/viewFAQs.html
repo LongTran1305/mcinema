@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/admin_layout}">
+
+<title layout:fragment="title">Admin | FAQs</title>
+<div layout:fragment="content">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800" align="center">FAQs List</h1>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                    <a href="createFAQ" class="btn btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus-square"></i>
+                    </span>
+                        <span class="text">Add New FAQs</span>
+                    </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">ID</th>
+                            <th style="text-align: center">Question</th>
+                            <th style="text-align: center">Answer</th>
+                            <th style="text-align: center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="f : ${faqsList}">
+                            <td style="text-align: center" th:text="${f.faqsid}">ID</td>
+                            <td th:text="${f.question}">Question</td>
+                            <td th:text="${f.answer}">Answer</td>
+                            <td align="center">
+                                <a th:href="@{'/updateFAQ/' + ${f.faqsid}}" class="btn btn-sm btn-info" title="Update FAQ">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a th:href="@{'/deleteFAQ/' + ${f.faqsid}}" class="btn btn-sm btn-danger" title="Delete FAQ">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <!-- /.container-fluid -->
+
+</div>
+
+<!-- End of Content Wrapper -->
+
+</html>
