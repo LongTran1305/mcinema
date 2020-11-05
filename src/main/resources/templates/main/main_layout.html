@@ -63,7 +63,7 @@
 <!--                    <li class="btn signupLink"><a href="#">sign up</a></li>-->
                     <li sec:authorize="isAuthenticated()">
                         <span th:text="${#request.userPrincipal.principal.fullName}"></span>
-                        <a th:href="@{/logout}">Logout</a>
+                        <span th:href="@{/logout}">Logout</span>
                     </li>
                     <li sec:authorize="isAnonymous()">
                         <a class="btn btn-success" th:href="@{/login}">Login</a>
