@@ -6,99 +6,89 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.io.Serializable;
+import java.util.*;
+
 @Getter
 @Setter
-@Builder
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "Customer")
-public class Customer implements UserDetails{
-    @Id
-    private String phoneNumber;
-    private String password;
-    private String customerName;
-    private String email;
-    private String address;
-    private boolean isActive;
+@Table(name = "customers")
+public class Customer<roles> implements UserDetails, Serializable {
 
-    public Customer(Customer optionalCustomer) {
-    }
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "phone_number", nullable = false, unique = true)
+    private String phoneNumber;
+
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "address")
+    private String address;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "customer_role",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles= new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        final SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority();
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return grantedAuthorities;
     }
-//    @Builder.Default
-//    private UserRole userRole = UserRole.USER;
+
 
     @Builder.Default
     private Boolean locked = false;
 
     @Builder.Default
     private Boolean enabled = false;
-    @Basic
-    @Column(name = "password")
+    @Override
     public String getPassword() {
         return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
-
-    @Basic
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
-    }
-
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return isActive == customer.isActive &&
-                Objects.equals(phoneNumber, customer.phoneNumber) &&
-                Objects.equals(password, customer.password) &&
-                Objects.equals(customerName, customer.customerName) &&
-                Objects.equals(email, customer.email) &&
-                Objects.equals(address, customer.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(phoneNumber, password, customerName, email, address, isActive);
-    }
-
-
 }
