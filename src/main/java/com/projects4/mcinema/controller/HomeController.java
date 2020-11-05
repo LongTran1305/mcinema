@@ -13,12 +13,28 @@ public class HomeController {
     public String home(Model model){
         return "main/index";
     }
-    @PostMapping("/login")
+//    @PostMapping("/login")
+//    public String doLogin(){
+//        return  "main/index";
+//    }
+    @GetMapping("/showLogin")
+    public String loginForm(Model model){
+        return "main/loginForm";
+    }
+    @GetMapping("/error")
+    public String error(Model model){
+        return "main/404";
+    }
+    @PostMapping("/loginSuccess")
+    public String success(){
+        return "main/loginSuccess";
+    }
+    @GetMapping("/logout")
+    public String logout(){
+        return "main/index";
+    }@PostMapping("/login")
     public String doLogin(Model model){
         return  "/index";
     }
-    @GetMapping("/admin")
-    public String admin(Model model){
-        return "admin/index";
-    }
+
 }
