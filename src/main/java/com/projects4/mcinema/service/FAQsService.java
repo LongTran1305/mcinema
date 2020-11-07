@@ -28,5 +28,4 @@ public class FAQsService {
         repo.deleteById(id);
     }
 
-
 }

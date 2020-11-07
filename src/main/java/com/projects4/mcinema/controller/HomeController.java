@@ -45,9 +45,11 @@ public class HomeController {
     public String doLogin(Model model){
         return  "/index";
     }
-    @GetMapping("/admin")
-    public String admin(Model model){
-        return "admin/index";
+
+    @GetMapping("/test")
+    public String test(Model model){
+        return "main/main_layout";
     }
+
 
 }

@@ -3,21 +3,37 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{admin/admin_layout}">
 
-<title layout:fragment="title">Admin | Update FAQs</title>
-<div layout:replace="content">
+<title layout:fragment="title">Admin | Update Movie</title>
+<div layout:fragment="content" align="center">
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Update FAQs</h1>
-    <form style="width: 50%" action="#" th:action="@{/saveFAQ}" th:object="${faq}" method="post" class="user">
+    <form style="width: 50%" action="#" th:action="@{/saveMovie}" th:object="${movie}" method="post" class="user" enctype="multipart/form-data">
         <hr>
         <div class="form-group">
-            <input type="text" th:field="*{faqsid}" readonly="readonly" class="form-control form-control-user" placeholder="Questio.">
+            <input type="text" class="form-control form-control-user" th:field="*{movieid}" readonly="readonly">
         </div>
         <div class="form-group">
-            <input type="text" th:field="*{question}" class="form-control form-control-user" placeholder="Questio.">
+            <input type="text" class="form-control form-control-user" th:field="*{moviename}" name="moviename" placeholder="Movie Name" required="true" autofocus>
         </div>
         <div class="form-group">
-            <input type="text" th:field="*{answer}" class="form-control form-control-user" placeholder="Answer">
+            <input type="text" class="form-control form-control-user" th:field="*{director}" name="director" placeholder="Director" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" th:field="*{duration}" name="duration" placeholder="Duration" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" th:field="*{genre}" name="genre" placeholder="Genre" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" th:field="*{description}" name="description" placeholder="Description" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" th:field="*{rating}" name="rating" placeholder="Rating" required="true">
+        </div>
+        <div class="form-group">
+            <input type="file" class="form-control form-control-user" name="image" placeholder="Photo">
+
         </div>
         <button type="submit" class="btn-lg btn-success" value="submit">Update</button>
         <hr>
