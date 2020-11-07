@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/admin_layout}">
+
+<title layout:fragment="title">Admin | FAQs</title>
+<div layout:fragment="content" align="center">
+    <div class="movie-item">
+        <div class="mv-img">
+            <a><img th:src="@{'getImg/'+ ${movie.image}}" alt="" width="285" height="437"></a>
+        </div>
+        <div class="title-in">
+            <div class="cate">
+                <span class="blue"><a th:text="${movie.genre}"></a></span>
+            </div>
+            <h6><a th:text="${movie.moviename}"></a></h6>
+            <p><i class="ion-android-star"></i><span th:text="${movie.rating}"></span> /10</p>
+        </div>
+        <button><a th:href="${'/viewMovies'}">Back</a></button>
+    </div>
+</div>
+</html>
