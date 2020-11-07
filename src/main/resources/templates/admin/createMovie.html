@@ -3,18 +3,33 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{admin/admin_layout}">
 
-<title layout:fragment="title">Admin | Add New FAQs</title>
-<div layout:fragment="content">
+<title layout:fragment="title">Admin | Add New Movie</title>
+<div layout:fragment="content" align="center">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Add New FAQs</h1>
-    <form style="width: 50%" action="#" th:action="@{/saveFAQ}" th:object="${faq}" method="post" class="user">
+    <h1 class="h3 mb-2 text-gray-800">Add New Movie</h1>
+    <form style="width: 50%" action="#" th:action="@{/saveMovie}" method="post" class="user" enctype="multipart/form-data">
         <hr>
         <div class="form-group">
-            <input type="text" th:field="*{question}" class="form-control form-control-user" placeholder="Questio.">
+            <input type="text" class="form-control form-control-user" name="moviename" placeholder="Movie Name" required="true" autofocus>
         </div>
         <div class="form-group">
-            <input type="text" th:field="*{answer}" class="form-control form-control-user" placeholder="Answer">
+            <input type="text" class="form-control form-control-user" name="director" placeholder="Director" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" name="duration" placeholder="Duration" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" name="genre" placeholder="Genre" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" name="description" placeholder="Description" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user" name="rating" placeholder="Rating" required="true">
+        </div>
+        <div class="form-group">
+            <input type="file" class="form-control form-control-user" name="image" placeholder="Photo" required="true">
         </div>
         <button type="submit" class="btn-lg btn-success" value="submit">Add</button>
         <hr>

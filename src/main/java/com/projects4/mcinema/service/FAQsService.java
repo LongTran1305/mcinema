@@ -27,6 +27,4 @@ public class FAQsService {
     public void delete(int id){
         repo.deleteById(id);
     }
-
-
 }

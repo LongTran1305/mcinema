@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title layout:fragment="title">Insert Title Here</title>
     <meta charset="UTF-8">
@@ -33,7 +31,7 @@
                         <span></span>
                     </div>
                 </div>
-                <a href="index-2.html"><img class="logo" src="images/logo1.png" alt="" width="119" height="58"></a>
+                <a href="index-2.html"><img class="logo" src="images/logo1.png"/></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
@@ -59,16 +57,8 @@
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
                     <li><a href="faqs.html">FAQs</a></li>
-<!--                    <li ><a th:href="@{/login}">LOG In</a></li>-->
-<!--                    <li class="btn signupLink"><a href="#">sign up</a></li>-->
-                    <li sec:authorize="isAuthenticated()">
-                        <span th:text="${#request.userPrincipal.principal.fullName}"></span>
-                        <a th:href="@{/logout}">Logout</a>
-                    </li>
-                    <li sec:authorize="isAnonymous()">
-                        <a class="btn btn-success" th:href="@{/login}">Login</a>
-                        <a class="btn btn-primary" th:href="@{/register}">Register</a>
-                    </li>
+                    <li class="loginLink"><a href="#">LOG In</a></li>
+                    <li class="btn signupLink"><a href="#">sign up</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -78,11 +68,15 @@
 <!-- END | Header -->
 
 <!-- BEGIN | Content-->
+<div class="slider movie-items">
+</div>
+<div class="movie-items">
 <div layout:fragment="content"></div>
+</div>
 <!-- END | Content-->
 
 <!-- footer section-->
-<footer class="ht-footer" layout:fragment="footer">
+<footer class="ht-footer">
     <div class="container">
         <div class="flex-parent-ft">
             <div class="flex-child-ft item1">

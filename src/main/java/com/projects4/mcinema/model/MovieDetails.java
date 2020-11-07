@@ -19,6 +19,7 @@ public class MovieDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int movieid;
+    private String moviename;
     private  String director;
     private float duration;
     private String genre;

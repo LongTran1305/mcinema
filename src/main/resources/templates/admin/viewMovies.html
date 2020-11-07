@@ -12,7 +12,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <a href="createFAQ" class="btn btn-success btn-icon-split">
+            <a href="createMovie" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-plus-square"></i>
                     </span>
@@ -26,7 +26,7 @@
                     <tr>
                         <th style="text-align: center">ID</th>
                         <th style="text-align: center">Name</th>
-                        <th style="text-align: center"Director</th>
+                        <th style="text-align: center">Director</th>
                         <th style="text-align: center">Duration</th>
                         <th style="text-align: center">Genre</th>
                         <th style="text-align: center">Description</th>
@@ -36,19 +36,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="f : ${faqsList}">
-                        <td style="text-align: center" th:text="${f.faqsid}">ID</td>
-                        <td th:text="${f.question}">Question</td>
-                        <td th:text="${f.answer}">Answer</td>
-                        <td th:text="${f.answer}">Answer</td>
-                        <td th:text="${f.answer}">Answer</td>
-                        <td th:text="${f.answer}">Answer</td>
-                        <td th:text="${f.answer}">Answer</td>
+                    <tr th:each="m : ${movieList}">
+                        <td style="text-align: center" th:text="${m.movieid}"></td>
+                        <td th:text="${m.moviename}"></td>
+                        <td th:text="${m.director}"></td>
+                        <td th:text="${m.duration}"></td>
+                        <td th:text="${m.genre}"></td>
+                        <td th:text="${m.description}"></td>
+                        <td th:text="${m.rating}"></td>
+                        <td th:text="${m.image}"></td>
                         <td align="center">
-                            <a th:href="@{'/updateFAQ/' + ${f.faqsid}}" class="btn btn-sm btn-info" title="Update FAQ">
+                            <a th:href="@{'/movieDetails/' + ${m.movieid}}" class="btn btn-sm btn-info" title="View Details">
+                                <i class="fas fa-info"></i>
+                            </a>
+                            <a th:href="@{'/updateMovie/' + ${m.movieid}}" class="btn btn-sm btn-info" title="Update FAQ">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a th:href="@{'/deleteFAQ/' + ${f.faqsid}}" class="btn btn-sm btn-danger" title="Delete FAQ">
+                            <a th:href="@{'/deleteMovie/' + ${m.movieid}}" class="btn btn-sm btn-danger" title="Delete FAQ">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
