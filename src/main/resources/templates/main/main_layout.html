@@ -61,14 +61,14 @@
                     <li><a href="faqs.html">FAQs</a></li>
 <!--                    <li ><a th:href="@{/login}">LOG In</a></li>-->
 <!--                    <li class="btn signupLink"><a href="#">sign up</a></li>-->
-                    <li sec:authorize="isAuthenticated()">
-                        <span th:text="${#request.userPrincipal.principal.fullName}"></span>
-                        <span th:href="@{/logout}">Logout</span>
-                    </li>
-                    <li sec:authorize="isAnonymous()">
+                    <div sec:authorize="isAuthenticated()">
+                        <span th:text="${#request.userPrincipal.principal.fullName}" style="color: red"></span>
+                        <a th:href="@{/logout}">Logout</a>
+                    </div>
+                    <div sec:authorize="isAnonymous()">
                         <a class="btn btn-success" th:href="@{/login}">Login</a>
                         <a class="btn btn-primary" th:href="@{/register}">Register</a>
-                    </li>
+                    </div>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
