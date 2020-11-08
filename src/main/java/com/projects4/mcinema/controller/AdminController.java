@@ -1,15 +1,16 @@
 package com.projects4.mcinema.controller;
 
+import com.projects4.mcinema.dto.MovieDetailsDto;
 import com.projects4.mcinema.model.FAQs;
 import com.projects4.mcinema.model.MovieDetails;
-import com.projects4.mcinema.repository.MovieDetailsRepository;
 import com.projects4.mcinema.service.FAQsService;
 import com.projects4.mcinema.service.MovieDetailsService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AdminController {
@@ -34,12 +35,12 @@ public class AdminController {
 
 //    Other Navigation
     @GetMapping("/admin")
-    public String admin(Model model){
+    public String admin(){
         return "admin/index";
     }
 
     @GetMapping("/404")
-    public String error(Model model){
+    public String error(){
         return "admin/404";
     }
 
@@ -80,12 +81,14 @@ public class AdminController {
 
 //    Movie Details Navigation
     @GetMapping("/createMovie")
-    public String createMovie(Model model){
+    public String createMovie(ModelMap model){
+        MovieDetailsDto movieDto = new MovieDetailsDto();
+        model.addAttribute("movieDto", movieDto);
+        model.addAttribute("action", "/saveMovie");
         return "admin/createMovie";
     }
 
     @GetMapping("/viewMovies")
-    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public String viewMovies(Model model){
         List<MovieDetails> movieList = movieService.listAll();
         model.addAttribute("movieList", movieList);
@@ -93,33 +96,43 @@ public class AdminController {
     }
 
     @PostMapping("/saveMovie")
-    public String saveMovie(
-            @RequestParam("moviename") String moviename,
-            @RequestParam("director") String director,
-            @RequestParam("duration") float duration,
-            @RequestParam("genre") String genre,
-            @RequestParam("description") String description,
-            @RequestParam("rating") float rating,
-            @RequestAttribute("image") MultipartFile image,
-            ModelMap model){
-        MovieDetails movie = new MovieDetails();
-        movie.setMoviename(moviename);
-        movie.setDirector(director);
-        movie.setDuration(duration);
-        movie.setGenre(genre);
-        movie.setDescription(description);
-        movie.setRating(rating);
-        Path path = Paths.get("src/main/resources/static/images/uploads");
-        try {
-            InputStream inputStream = image.getInputStream();
-            Files.copy(inputStream, path.resolve(image.getOriginalFilename()),
-                    StandardCopyOption.REPLACE_EXISTING);
-            movie.setImage(image.getOriginalFilename());
-            model.addAttribute("movie", movie);
-            movieService.save(movie);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String saveMovie(ModelMap map, @ModelAttribute("movieDto") MovieDetailsDto movieDto){
+        Optional<MovieDetails> optionalMovie = movieService.findById(movieDto.getMovieid());
+        MovieDetails movie = null;
+        String image = "blankmovie.jpg";
+        Path path = Paths.get("src/main/resources/static/images/uploads/");
+        if(optionalMovie.isPresent()){
+            //update
+            if(movieDto.getImage().isEmpty()){
+                image = optionalMovie.get().getImage();
+            }else {
+                try {
+                    InputStream inputStream = movieDto.getImage().getInputStream();
+                    Files.copy(inputStream, path.resolve(movieDto.getImage().getOriginalFilename()),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    image = movieDto.getImage().getOriginalFilename().toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            movie = new MovieDetails(movieDto.getMoviename(), movieDto.getDirector(), movieDto.getDuration(),
+                    movieDto.getGenre(),movieDto.getDescription(), movieDto.getRating(), image);
+        }else{
+            //add new
+            if(!movieDto.getImage().isEmpty()){
+                try {
+                    InputStream inputStream = movieDto.getImage().getInputStream();
+                    Files.copy(inputStream, path.resolve(movieDto.getImage().getOriginalFilename()),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    image = movieDto.getImage().getOriginalFilename().toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        movie = new MovieDetails(movieDto.getMovieid(), movieDto.getMoviename(), movieDto.getDirector(), movieDto.getDuration(),
+                                movieDto.getGenre(),movieDto.getDescription(), movieDto.getRating(), image);
+        movieService.save(movie);
         return "redirect:/viewMovies";
     }
 
@@ -128,7 +141,7 @@ public class AdminController {
     public ResponseEntity<ByteArrayResource> getImage(@PathVariable("image") String image){
         if (!image.equals("") || image != null){
             try{
-                Path fileName = Paths.get("src/main/resources/static/images/uploads", image);
+                Path fileName = Paths.get("src/main/resources/static/images/uploads/", image);
                 byte[] buffer = Files.readAllBytes(fileName);
                 ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);
                 return ResponseEntity.ok()
@@ -145,24 +158,43 @@ public class AdminController {
     }
 
     @GetMapping("/movieDetails/{id}")
-    public ModelAndView movieDetails(@PathVariable(name = "id") int id){
+    public ModelAndView movieDetails(@PathVariable(name = "id") String id){
         ModelAndView mav = new ModelAndView("admin/movieDetails");
-        MovieDetails movie = movieService.get(id);
+        Optional<MovieDetails> movieOptional = movieService.findById(id);
+        MovieDetails movie = movieOptional.get();
         mav.addObject("movie", movie);
         return mav;
     }
 
-    @GetMapping("/updateMovie/{id}")
-    public ModelAndView updateMovie(@PathVariable(name = "id") int id){
-        ModelAndView mav = new ModelAndView("admin/updateMovie");
+    @RequestMapping("/updateMovie/{id}")
+    public String updateMovie(ModelMap model, @PathVariable("id") String id){
         MovieDetails movie = movieService.get(id);
-        mav.addObject("movie", movie);
-        return mav;
-    }
+        MovieDetailsDto movieDto = null;
+        if(movie != null){
+            File file = new File("src/main/resources/static/images/uploads/" + movie.getImage());
+            FileInputStream input;
+            try{
+                input = new FileInputStream(file);
+                MultipartFile multiImg = new MockMultipartFile("file", file.getName(), "text/plain",
+                                                                IOUtils.toByteArray(input));
+                movieDto = new MovieDetailsDto(movie.getMovieid(), movie.getMoviename(), movie.getDirector(), movie.getDuration(),
+                            movie.getGenre(), movie.getDescription(), movie.getRating(), multiImg);
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
 
+            model.addAttribute("movieDto", movieDto);
+        }else{
+            model.addAttribute("movieDto", new MovieDetailsDto());
+        }
+        model.addAttribute("action", "/saveMovie");
+        return "admin/updateMovie";
+    }
 
     @GetMapping("/deleteMovie/{id}")
-    public String deleteMovie(@PathVariable(name = "id") int id){
+    public String deleteMovie(@PathVariable(name = "id") String id){
         movieService.delete(id);
         return "redirect:/viewMovies";
     }

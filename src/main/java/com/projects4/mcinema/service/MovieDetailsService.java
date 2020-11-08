@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieDetailsService {
@@ -17,15 +18,19 @@ public class MovieDetailsService {
         return repo.findAll();
     }
 
+    public MovieDetails get(String id){
+        return repo.findById(id).get();
+    }
+
     public void save(MovieDetails movie){
         repo.save(movie);
     }
 
-    public MovieDetails get(int movieid){
-        return repo.findById(movieid).get();
+    public Optional<MovieDetails> findById(String id){
+        return repo.findById(id);
     }
 
-    public void delete(int id){
+    public void delete(String id){
         repo.deleteById(id);
     }
 }
