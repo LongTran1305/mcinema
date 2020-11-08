@@ -2,6 +2,7 @@ package com.projects4.mcinema.controller;
 
 import com.projects4.mcinema.dto.MovieDetailsDto;
 import com.projects4.mcinema.model.FAQs;
+
 import com.projects4.mcinema.model.MovieDetails;
 import com.projects4.mcinema.service.FAQsService;
 import com.projects4.mcinema.service.MovieDetailsService;
@@ -23,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +32,10 @@ import java.util.Optional;
 public class AdminController {
     @Autowired
     private FAQsService faqsService;
+
     @Autowired
     private MovieDetailsService movieService;
+
 
 //    Other Navigation
     @GetMapping("/admin")
@@ -80,6 +84,7 @@ public class AdminController {
     }
 
 //    Movie Details Navigation
+
     @GetMapping("/createMovie")
     public String createMovie(ModelMap model){
         MovieDetailsDto movieDto = new MovieDetailsDto();
@@ -198,4 +203,5 @@ public class AdminController {
         movieService.delete(id);
         return "redirect:/viewMovies";
     }
+
 }
