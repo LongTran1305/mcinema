@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Time;
 
 @AllArgsConstructor
@@ -16,12 +13,17 @@ import java.sql.Time;
 @Getter
 @Setter
 @Entity
+@Table(name = "MovieShow")
 public class MovieShow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int showid;
-    private int movieid;
-    private int screenId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="movieId")
+    private MovieDetails movieid;
+
     private Time showtime;
+
     private String ticketprice;
 }

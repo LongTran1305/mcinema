@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{admin/admin_layout}">
+
+<title layout:fragment="title">Admin | Add New Show</title>
+<div layout:fragment="content" align="center">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Add New Show</h1>
+    <form style="width: 50%" action="#" th:action="@{/saveShow}" th:object="${show}" method="post" class="user">
+        <hr>
+        <div class="form-group" >
+            <label>Choose Movie</label>
+        <select th:field="*{movieid}" class="form-control form-control-user">
+                <option th:each="movieid : ${MOVIELIST}" th:value="${movieid.movieid}" th:text="${movieid.moviename}"></option>
+        </select>
+        </div>
+        <div class="form-group">
+            <input type="text" th:field="*{showtime}" class="form-control form-control-user" placeholder="Show Time" required="true">
+        </div>
+        <div class="form-group">
+            <input type="text" th:field="*{ticketprice}" class="form-control form-control-user" placeholder="Ticket Price" required="true">
+        </div>
+        <button type="submit" class="btn-lg btn-success" value="submit">Add</button>
+        <hr>
+    </form>
+</div>
+
+<!-- End of Content Wrapper -->
+
+</html>

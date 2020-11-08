@@ -4,8 +4,10 @@ import com.projects4.mcinema.dto.MovieDetailsDto;
 import com.projects4.mcinema.model.FAQs;
 
 import com.projects4.mcinema.model.MovieDetails;
+import com.projects4.mcinema.model.MovieShow;
 import com.projects4.mcinema.service.FAQsService;
 import com.projects4.mcinema.service.MovieDetailsService;
+import com.projects4.mcinema.service.MovieShowService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -30,11 +32,15 @@ import java.util.Optional;
 
 @Controller
 public class AdminController {
+//    Inject Service
     @Autowired
     private FAQsService faqsService;
 
     @Autowired
     private MovieDetailsService movieService;
+
+    @Autowired
+    private MovieShowService showService;
 
 
 //    Other Navigation
@@ -120,8 +126,6 @@ public class AdminController {
                     e.printStackTrace();
                 }
             }
-            movie = new MovieDetails(movieDto.getMoviename(), movieDto.getDirector(), movieDto.getDuration(),
-                    movieDto.getGenre(),movieDto.getDescription(), movieDto.getRating(), image);
         }else{
             //add new
             if(!movieDto.getImage().isEmpty()){
@@ -204,4 +208,43 @@ public class AdminController {
         return "redirect:/viewMovies";
     }
 
+    //Movie Show Navagation
+    @GetMapping("/viewShows")
+    public String viewShows(Model model){
+        List<MovieShow> showList = showService.findAll();
+        model.addAttribute("showList", showList);
+        return "admin/viewShows";
+    }
+
+    @ModelAttribute(name = "MOVIELIST")
+    public List<MovieDetails> listMovieName(){
+        return showService.listAll();
+    }
+
+    @GetMapping("/createShow")
+    public String createShow(Model model){
+        MovieShow show = new MovieShow();
+        model.addAttribute("show", show);
+        return "admin/createShow";
+    }
+
+    @PostMapping("/saveShow")
+    public String saveShow(@ModelAttribute("show") MovieShow show){
+        showService.save(show);
+        return "redirect:/viewShows";
+    }
+
+    @GetMapping("/updateShow/{id}")
+    public ModelAndView updateShow(@PathVariable(name = "id") int id){
+        ModelAndView mav = new ModelAndView("admin/updateShow");
+        MovieShow show = showService.get(id);
+        mav.addObject("show", show);
+        return mav;
+    }
+
+    @GetMapping("/deleteShow/{id}")
+    public String deleteShow(@PathVariable(name = "id") int id){
+        showService.delete(id);
+        return "redirect:/viewShows";
+    }
 }
