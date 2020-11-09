@@ -1,6 +1,5 @@
 package com.projects4.mcinema.model;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +12,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FAQs {
+@Table(name= "Seat")
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int faqsid;
+    private int seatid;
 
-    @Column(length = 100)
-    private  String question;
+    @Column(length = 3)
+    private String seatname;
 
-    @Column(length = 100)
-    private String answer;
+    @ManyToOne
+    @JoinColumn(name="showid")
+    private MovieShow show;
 }

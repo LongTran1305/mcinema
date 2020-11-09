@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,10 +21,16 @@ public class MovieShow {
     private int showid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="movieId")
+    @JoinColumn(name="movieid")
     private MovieDetails movieid;
 
+    @Column(length = 5)
     private Time showtime;
 
+    @Column(length = 10)
     private String ticketprice;
+
+    @OneToMany(mappedBy = "show")
+    private Collection<Seat> seats;
+
 }

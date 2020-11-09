@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main/main_layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title layout:fragment="title">MCinema</title>
+</head>
+<body>
+
+
+</div>
+<div layout:fragment="content">
+    <div class="hero mv-single-hero" style="height: 200px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <h1> movie listing - list</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                    </ul> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-single movie-single movie_single" th:object="${movie}">
+        <div class="container">
+            <div class="row ipad-width2">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="movie-img sticky-sb" style="top: 0px;">
+                        <img th:src="@{'getImg/'+ ${movie.image}}" alt="" width="263.33px" height="403.33px">
+                        <div class="movie-btn">
+                            <div class="btn-transform transform-vertical red">
+                                <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
+                                <div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow" rel="playlist"><i class="ion-play"></i></a></div>
+                            </div>
+                            <div class="btn-transform transform-vertical">
+                                <div><a href="bookTicket" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
+                                <div><a href="bookTicket" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="movie-single-ct main-content">
+                        <h1 class="bd-hd" th:text="${movie.moviename}"></h1>
+                        <div class="social-btn">
+                            <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+                            <div class="hover-bnt">
+                                <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
+                                <div class="hvr-item">
+                                    <a href="#" class="hvr-grow"><i class="ion-social-facebook"></i></a>
+                                    <a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>
+                                    <a href="#" class="hvr-grow"><i class="ion-social-googleplus"></i></a>
+                                    <a href="#" class="hvr-grow"><i class="ion-social-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="movie-rate">
+                            <div class="rate">
+                                <i class="ion-android-star"></i>
+                                <p><span th:text="${movie.rating}"></span> /10<br>
+                                    <span class="rv">56 Reviews</span>
+                                </p>
+                            </div>
+                            <div class="rate-star">
+                                <p>Rate This Movie:  </p>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star-outline"></i>
+                            </div>
+                        </div>
+                        <div class="movie-tabs">
+                            <div class="tabs">
+                                <ul class="tab-links tabs-mv">
+                                    <li class="active"><a href="#overview">Overview</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="overview" class="tab active" style="">
+                                        <div class="row">
+                                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                                <p th:text="${movie.description}"></p>
+                                                <div class="title-hd-sm">
+                                                    <h4>cast</h4>
+                                                    <a href="#" class="time">Full Cast &amp; Crew  <i class="ion-ios-arrow-right"></i></a>
+                                                </div>
+                                                <!-- movie cast -->
+                                                <div class="mvcast-item">
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast1.jpg" alt="">
+                                                            <a href="#">Robert Downey Jr.</a>
+                                                        </div>
+                                                        <p>...  Robert Downey Jr.</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast2.jpg" alt="">
+                                                            <a href="#">Chris Hemsworth</a>
+                                                        </div>
+                                                        <p>...  Thor</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast3.jpg" alt="">
+                                                            <a href="#">Mark Ruffalo</a>
+                                                        </div>
+                                                        <p>...  Bruce Banner/ Hulk</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast4.jpg" alt="">
+                                                            <a href="#">Chris Evans</a>
+                                                        </div>
+                                                        <p>...  Steve Rogers/ Captain America</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast5.jpg" alt="">
+                                                            <a href="#">Scarlett Johansson</a>
+                                                        </div>
+                                                        <p>...  Natasha Romanoff/ Black Widow</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast6.jpg" alt="">
+                                                            <a href="#">Jeremy Renner</a>
+                                                        </div>
+                                                        <p>...  Clint Barton/ Hawkeye</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast7.jpg" alt="">
+                                                            <a href="#">James Spader</a>
+                                                        </div>
+                                                        <p>...  Ultron</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/images/uploads/cast9.jpg" alt="">
+                                                            <a href="#">Don Cheadle</a>
+                                                        </div>
+                                                        <p>...  James Rhodes/ War Machine</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-xs-12 col-sm-12">
+                                                <div class="sb-it">
+                                                    <h6>Director: </h6>
+                                                    <p><a href="#" th:text="${movie.director}"></a></p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Stars: </h6>
+                                                    <p><a href="#">Robert Downey Jr,</a> <a href="#">Chris Evans,</a> <a href="#">Mark Ruffalo,</a><a href="#"> Scarlett Johansson</a></p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Genres:</h6>
+                                                    <p><a href="#">Action, </a> <a href="#" th:text="${movie.genre}"></a></p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Release Date:</h6>
+                                                    <p>May 1, 2015 (U.S.A)</p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6 th:text="${movie.duration}"></h6>
+                                                    <p>hours</p>
+                                                </div>
+                                                <div class="ads">
+                                                    <img src="/images/uploads/ads1.png" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END | Content-->
+</body>
+</html>

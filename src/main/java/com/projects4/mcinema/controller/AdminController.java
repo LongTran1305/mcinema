@@ -145,7 +145,7 @@ public class AdminController {
         return "redirect:/viewMovies";
     }
 
-    @GetMapping("/movieDetails/getImg/{image}")
+    @GetMapping({"/movieDetails/getImg/{image}", "/getImg/{image}", "/movieMain/getImg/{image}"})
     @ResponseBody
     public ResponseEntity<ByteArrayResource> getImage(@PathVariable("image") String image){
         if (!image.equals("") || image != null){
